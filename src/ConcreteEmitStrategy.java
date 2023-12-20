@@ -1,6 +1,7 @@
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
 import java.util.stream.Stream;
 
@@ -19,7 +20,7 @@ public class ConcreteEmitStrategy implements EmitStrategy<String, String>{
 
         // Spawn jobs for each file in the directory
         List<AJob<String, String>> jobs = new ArrayList<>();
-        for (File file : directory.listFiles()) {
+        for (File file : Objects.requireNonNull(directory.listFiles())) {
             if (file.getName().toLowerCase().endsWith(".txt")) {
                 jobs.add(new Job(file.getAbsolutePath()));
             }
