@@ -7,7 +7,7 @@ import java.nio.file.Paths;
 
 
 public class Job extends AJob<String, String> {
-    private String path;
+    private final String path;
 
     public Job(String path) {
         this.path = path;
