@@ -5,7 +5,7 @@ import java.util.Objects;
 import java.util.Scanner;
 import java.util.stream.Stream;
 
-public class ConcreteEmitStrategy implements EmitStrategy<String, String>{
+public class ConcreteEmitStrategy extends AbstractEmitStrategy<String, String>{
     /**
      * Emit jobs for each file in a directory
      * @return a stream of jobs

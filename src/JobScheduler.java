@@ -4,14 +4,14 @@ import java.util.stream.Stream;
 
 public class JobScheduler<K, V> {
 
-    private EmitStrategy<K, V> emitStrategy;
-    private OutputStrategy<K, V> outputStrategy;
+    private AbstractEmitStrategy<K, V> emitStrategy;
+    private AbstractOutputStrategy<K, V> outputStrategy;
     /**
      * Constructor.
      * @param emitStrategy The emit strategy.
      * @param outputStrategy The output strategy.
      */
-    public JobScheduler(EmitStrategy<K, V> emitStrategy, OutputStrategy<K, V> outputStrategy) {
+    public JobScheduler(AbstractEmitStrategy<K, V> emitStrategy, AbstractOutputStrategy<K, V> outputStrategy) {
         this.emitStrategy = emitStrategy;
         this.outputStrategy = outputStrategy;
     }
@@ -20,7 +20,7 @@ public class JobScheduler<K, V> {
      * Sets the emit strategy.
      * @param emitStrategy The new emit strategy.
      */
-    public void setEmitStrategy(EmitStrategy<K, V> emitStrategy) {
+    public void setEmitStrategy(AbstractEmitStrategy<K, V> emitStrategy) {
         this.emitStrategy = emitStrategy;
     }
 
@@ -28,7 +28,7 @@ public class JobScheduler<K, V> {
      * Sets the output strategy.
      * @param outputStrategy The new output strategy.
      */
-    public void setOutputStrategy(OutputStrategy<K, V> outputStrategy) {
+    public void setOutputStrategy(AbstractOutputStrategy<K, V> outputStrategy) {
         this.outputStrategy = outputStrategy;
     }
     /**
@@ -51,7 +51,7 @@ public class JobScheduler<K, V> {
     }
 
     public final Stream<Pair<K, V>> compute(Stream<AJob<K, V>> stream) {
-        return stream.flatMap(job -> job.execute());
+        return stream.flatMap(AJob::execute);
     }
 
     /**

@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 
-public class ConcreteOutputStrategy implements OutputStrategy<String,String> {
+public class ConcreteOutputStrategy extends AbstractOutputStrategy<String,String> {
     /**
      * Output the results to a file
      * @param collection the collection of pairs to output
