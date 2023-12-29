@@ -1,4 +1,4 @@
-public class Scheduler {
+public class Main {
     /**
      * Given the absolute path of a directory, print the number of anagrams
      * of all the words contained in a set of documents in that directory.
