@@ -15,7 +15,7 @@ public class ConcreteOutputStrategy extends AbstractOutputStrategy<String,String
     public void output(Stream<Pair<String, List<String>>> collection) {
         File outFile = new File("count_anagrams.csv");
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(outFile))) {
-            writer.write("Key,Count\n"); // Intestazione CSV
+            writer.write("Key,Count\n");
             collection.forEach(pair -> {
                 try {
                     writer.write(pair.getKey() + "," + pair.getValue().size());
