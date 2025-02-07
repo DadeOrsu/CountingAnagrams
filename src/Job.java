@@ -40,11 +40,11 @@ public class Job extends AJob<String, String> {
             return Files
                     .lines(Paths.get(this.path))
                     .flatMap(line -> Arrays.stream(line.split("\\s+")))
-                    .filter(word -> word.length() >= 4 && word.matches("^([A-Za-z])+$"))
+                    .filter(word -> word.length() >= 4 && word.matches("^[A-Za-z]+$"))
                     .map(word -> new Pair<>(ciao(word), word.toLowerCase()));
         } catch (IOException e) {
-            e.printStackTrace();
-            return null;
+            System.err.println("Error during opening of the file: " + path);
+            return Stream.empty();
         }
     }
 }
