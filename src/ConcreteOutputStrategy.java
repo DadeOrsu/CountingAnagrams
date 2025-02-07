@@ -13,16 +13,12 @@ public class ConcreteOutputStrategy extends AbstractOutputStrategy<String,String
      */
     @Override
     public void output(Stream<Pair<String, List<String>>> collection) {
-        // Open the file using a BufferedWriter for efficiency
-        File outFile = new File("count_anagrams.txt");
+        File outFile = new File("count_anagrams.csv");
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(outFile))) {
-            // Write to file
+            writer.write("Key,Count\n"); // Intestazione CSV
             collection.forEach(pair -> {
                 try {
-                    String ciao = pair.getKey();
-                    long anagramsCount = pair.getValue().size();
-
-                    writer.write(ciao + " - " + anagramsCount);
+                    writer.write(pair.getKey() + "," + pair.getValue().size());
                     writer.newLine();
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -30,8 +26,7 @@ public class ConcreteOutputStrategy extends AbstractOutputStrategy<String,String
             });
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            System.out.println("Output written to " + outFile.getAbsolutePath());
         }
+        System.out.println("Output written to " + outFile.getAbsolutePath());
     }
 }
