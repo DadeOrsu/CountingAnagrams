@@ -20,7 +20,9 @@ public class Job extends AJob<String, String> {
      * @return CIAO key of the word.
      */
     private String ciao(String word) {
-        return new String(word.toLowerCase().chars().sorted().toArray(), 0, word.length());
+        char[] chars = word.toLowerCase().toCharArray();
+        Arrays.sort(chars);
+        return new String(chars);
     }
 
     /**
