@@ -17,7 +17,7 @@ public class JobScheduler<K, V> {
     }
 
     /**
-     * Sets the emit strategy.
+     * Setter for the emit strategy.
      * @param emitStrategy The new emit strategy.
      */
     public void setEmitStrategy(AbstractEmitStrategy<K, V> emitStrategy) {
@@ -25,16 +25,22 @@ public class JobScheduler<K, V> {
     }
 
     /**
-     * Sets the output strategy.
+     * Setter for the output strategy.
      * @param outputStrategy The new output strategy.
      */
     public void setOutputStrategy(AbstractOutputStrategy<K, V> outputStrategy) {
         this.outputStrategy = outputStrategy;
     }
+
     /**
-     * Entry point of the framework.
-     * It is a frozen spot, since the user should not change the order of the
-     * phases.
+     * Executes all phases of the job scheduling framework in a fixed sequence.
+     * The execution follows these four sequential phases:
+     * 1. Emit: Generates a stream of jobs using the configured emission strategy.
+     * 2. Compute: Executes the jobs and produces key-value pairs.
+     * 3. Collect: Groups values by their corresponding keys.
+     * 4. Output: Writes or prints the collected results using the configured output strategy.
+     *
+     * This method ensures that all phases are executed in the correct order and must not be overridden.
      */
     public final void executePhases() {
         output(collect(compute(emit())));
@@ -50,6 +56,12 @@ public class JobScheduler<K, V> {
         return emitStrategy.emit();
     }
 
+    /**
+     * Executes the jobs received from the emit phase by invoking their `execute()` method.
+     *
+     * @param stream The stream of jobs to be executed.
+     * @return A stream of key-value pairs produced by executing all jobs.
+     */
     public final Stream<Pair<K, V>> compute(Stream<AJob<K, V>> stream) {
         return stream.flatMap(AJob::execute);
     }
@@ -72,5 +84,18 @@ public class JobScheduler<K, V> {
      */
     public void output(Stream<Pair<K, List<V>>> out){
         outputStrategy.output(out);
+    }
+
+    /**
+     * The main entry point of the framework.
+     * This method initializes a JobScheduler instance with concrete implementations
+     * of the emission and output strategies, and then executes the job processing phases.
+     */
+    public static void main(String[] args) {
+        JobScheduler<String, String> scheduler = new JobScheduler<>(
+                new ConcreteEmitStrategy(),
+                new ConcreteOutputStrategy()
+        );
+        scheduler.executePhases();
     }
 }
